@@ -354,23 +354,23 @@ module.exports = {
         created_at: {type: 'dateTime', nullable: false}
     },
     members: {
-        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
-        uuid: {type: 'string', maxlength: 36, nullable: true, unique: true, validations: {isUUID: true}},
-        email: {type: 'string', maxlength: 191, nullable: false, unique: true, validations: {isEmail: true}},
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true, fake: 'ghost.id'},
+        uuid: {type: 'string', maxlength: 36, nullable: true, unique: true, validations: {isUUID: true}, fake: 'datatype.uuid'},
+        email: {type: 'string', maxlength: 191, nullable: false, unique: true, validations: {isEmail: true}, fake: 'internet.email'},
         status: {
             type: 'string', maxlength: 50, nullable: false, defaultTo: 'free', validations: {
                 isIn: [['free', 'paid', 'comped']]
-            }
+            }, fake: 'ghost.memberStatus'
         },
-        name: {type: 'string', maxlength: 191, nullable: true},
+        name: {type: 'string', maxlength: 191, nullable: true, fake: 'name.findName'},
         note: {type: 'string', maxlength: 2000, nullable: true},
         geolocation: {type: 'string', maxlength: 2000, nullable: true},
-        subscribed: {type: 'bool', nullable: true, defaultTo: true},
+        subscribed: {type: 'bool', nullable: true, defaultTo: true, fake: 'datatype.boolean'},
         email_count: {type: 'integer', unsigned: true, nullable: false, defaultTo: 0},
         email_opened_count: {type: 'integer', unsigned: true, nullable: false, defaultTo: 0},
         email_open_rate: {type: 'integer', unsigned: true, nullable: true, index: true},
-        created_at: {type: 'dateTime', nullable: false},
-        created_by: {type: 'string', maxlength: 24, nullable: false},
+        created_at: {type: 'dateTime', nullable: false, fake: 'date.past'},
+        created_by: {type: 'string', maxlength: 24, nullable: false, fake: 'ghost.id'},
         updated_at: {type: 'dateTime', nullable: true},
         updated_by: {type: 'string', maxlength: 24, nullable: true}
     },
@@ -412,9 +412,9 @@ module.exports = {
         created_at: {type: 'dateTime', nullable: false}
     },
     members_login_events: {
-        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
-        member_id: {type: 'string', maxlength: 24, nullable: false, references: 'members.id', cascadeDelete: true},
-        created_at: {type: 'dateTime', nullable: false}
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true, fake: 'ghost.id'},
+        member_id: {type: 'string', maxlength: 24, nullable: false, references: 'members.id', cascadeDelete: true, fake: 'ghost.id'},
+        created_at: {type: 'dateTime', nullable: false, fake: 'date.past'}
     },
     members_email_change_events: {
         id: {type: 'string', maxlength: 24, nullable: false, primary: true},

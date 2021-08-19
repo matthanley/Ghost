@@ -15,6 +15,9 @@ faker.ghost = {
     id: () => {
         // TODO: replace this with Ghost's id generation
         return faker.datatype.uuid().substr(0,24);
+    },
+    memberStatus: () => {
+        return faker.random.arrayElement(['free', 'paid', 'comped']);
     }
 };
 
