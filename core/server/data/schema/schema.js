@@ -385,10 +385,10 @@ module.exports = {
         updated_at: {type: 'dateTime', nullable: true}
     },
     benefits: {
-        id: {type: 'string', maxlength: 24, nullable: false, primary: true},
-        name: {type: 'string', maxlength: 191, nullable: false},
-        slug: {type: 'string', maxlength: 191, nullable: false, unique: true},
-        created_at: {type: 'dateTime', nullable: false},
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true, fake: 'ghost.id'},
+        name: {type: 'string', maxlength: 191, nullable: false, fake: 'company.bs'},
+        slug: {type: 'string', maxlength: 191, nullable: false, unique: true, fake: 'lorem.slug'},
+        created_at: {type: 'dateTime', nullable: false, fake: 'date.past'},
         updated_at: {type: 'dateTime', nullable: true}
     },
     products_benefits: {
