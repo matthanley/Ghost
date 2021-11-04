@@ -3,7 +3,7 @@ const errors = require('@tryghost/errors');
 const offersService = require('../../services/offers');
 
 const messages = {
-    offerNotFound: 'Offer not found.'
+    offerNotFound: 'Offer not found'
 };
 
 module.exports = {
