@@ -688,5 +688,8 @@ module.exports = {
             }
         },
         value: {type: 'text', maxlength: 65535, nullable: true}
+    },
+    tmp: {
+        id: {type: 'string', maxlength: 24, nullable: false, primary: true}
     }
 };
