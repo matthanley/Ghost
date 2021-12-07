@@ -34,7 +34,8 @@ const doExport = async function doExport(options) {
     options = options || {include: []};
 
     try {
-        const tables = await commands.getTables(options.transacting);
+        // const tables = await commands.getTables(options.transacting);
+        const tables = TABLES_ALLOWLIST;
 
         const tableData = await Promise.mapSeries(tables, function (tableName) {
             return exportTable(tableName, options);
