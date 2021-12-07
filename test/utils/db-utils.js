@@ -34,9 +34,9 @@ module.exports.truncate = async (tableName) => {
         return;
     }
 
-    await db.knex.raw('SET FOREIGN_KEY_CHECKS=0;');
+    await db.knex.raw(`SET session_replication_role = 'replica';`);
     await db.knex(tableName).truncate();
-    await db.knex.raw('SET FOREIGN_KEY_CHECKS=1;');
+    await db.knex.raw(`SET session_replication_role = 'origin';`);
 };
 
 // we must always try to delete all tables
@@ -84,15 +84,15 @@ module.exports.teardown = () => {
     }
 
     return db.knex.transaction(function (trx) {
-        return db.knex.raw('SET FOREIGN_KEY_CHECKS=0;').transacting(trx)
+        return db.knex.raw(`SET session_replication_role = 'replica';`).transacting(trx)
             .then(function () {
                 return Promise
                     .each(tables, function createTable(table) {
-                        return db.knex.raw('TRUNCATE ' + table + ';').transacting(trx);
+                        return db.knex.raw('DELETE FROM ' + table + ';').transacting(trx);
                     });
             })
             .then(function () {
-                return db.knex.raw('SET FOREIGN_KEY_CHECKS=1;').transacting(trx);
+                return db.knex.raw(`SET session_replication_role = 'origin';`).transacting(trx);
             })
             .catch(function (err) {
                 // CASE: table does not exist
