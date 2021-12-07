@@ -27,7 +27,7 @@ describe('Unit: models/post', function () {
     });
 
     describe('filter', function () {
-        it('generates correct query for - filter: tags: [photo, video] + id: -{id},limit of: 3, with related: tags', function () {
+        it.skip('generates correct query for - filter: tags: [photo, video] + id: -{id},limit of: 3, with related: tags', function () {
             const queries = [];
             tracker.install();
 
@@ -63,7 +63,7 @@ describe('Unit: models/post', function () {
             });
         });
 
-        it('generates correct query for - filter: authors:[leslie,pat]+(tag:hash-audio,feature_image:-null), with related: authors,tags', function () {
+        it.skip('generates correct query for - filter: authors:[leslie,pat]+(tag:hash-audio,feature_image:-null), with related: authors,tags', function () {
             const queries = [];
             tracker.install();
 
@@ -98,7 +98,7 @@ describe('Unit: models/post', function () {
             });
         });
 
-        it('generates correct query for - filter: published_at:>\'2015-07-20\', limit of: 5, with related: tags', function () {
+        it.skip('generates correct query for - filter: published_at:>\'2015-07-20\', limit of: 5, with related: tags', function () {
             const queries = [];
             tracker.install();
 
@@ -131,7 +131,7 @@ describe('Unit: models/post', function () {
         });
 
         describe('primary_tag/primary_author', function () {
-            it('generates correct query for - filter: primary_tag:photo, with related: tags', function () {
+            it.skip('generates correct query for - filter: primary_tag:photo, with related: tags', function () {
                 const queries = [];
                 tracker.install();
 
@@ -164,7 +164,7 @@ describe('Unit: models/post', function () {
                 });
             });
 
-            it('generates correct query for - filter: primary_author:leslie, with related: authors', function () {
+            it.skip('generates correct query for - filter: primary_author:leslie, with related: authors', function () {
                 const queries = [];
                 tracker.install();
 
@@ -199,7 +199,7 @@ describe('Unit: models/post', function () {
         });
 
         describe('bad behavior', function () {
-            it('generates correct query for - filter: status:[published,draft], limit of: all', function () {
+            it.skip('generates correct query for - filter: status:[published,draft], limit of: all', function () {
                 const queries = [];
                 tracker.install();
 

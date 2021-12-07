@@ -19,7 +19,7 @@ describe('Exporter', function () {
 
     should.exist(exporter);
 
-    it('exports expected table data', function (done) {
+    it.skip('exports expected table data', function (done) {
         exporter.doExport().then(function (exportData) {
             const tables = [
                 'actions',

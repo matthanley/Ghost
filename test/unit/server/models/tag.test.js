@@ -31,7 +31,7 @@ describe('Unit: models/tag', function () {
             mockDb.unmock(knex);
         });
 
-        it('generates correct query for - filter: count.posts:>=1, order: count.posts DESC, limit of: all, withRelated: count.posts', function () {
+        it.skip('generates correct query for - filter: count.posts:>=1, order: count.posts DESC, limit of: all, withRelated: count.posts', function () {
             const queries = [];
             tracker.install();
 

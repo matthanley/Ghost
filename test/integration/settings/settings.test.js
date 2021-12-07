@@ -39,8 +39,9 @@ describe('Settings', function () {
             .whereNotIn('key', coreSettingKeys)
             .count('*')
             .then(function (data) {
-                const countResult = data[0]['count(*)'];
-                countResult.should.eql(0);
+                // const countResult = data[0]['count(*)'];
+                const countResult = data[0].count;
+                countResult.should.eql('0');
             })
             .catch(function (err) {
             // CASE: table does not exist

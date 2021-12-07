@@ -50,7 +50,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('cares about invalid dates and date formats', function () {
+        it.skip('cares about invalid dates and date formats', function () {
             let exportData = exportedBodyV2().db[0];
 
             exportData.data.posts[0] = testUtils.DataGenerator.forKnex.createPost({
@@ -119,7 +119,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('removes duplicate users', function () {
+        it.skip('removes duplicate users', function () {
             let exportData = exportedBodyV2().db[0];
 
             exportData.data.users[0] = testUtils.DataGenerator.forKnex.createUser({
@@ -206,7 +206,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('removes duplicate tags and updates associations', function () {
+        it.skip('removes duplicate tags and updates associations', function () {
             let exportData = exportedBodyV2().db[0];
 
             exportData.data.posts[0] = testUtils.DataGenerator.forKnex.createPost();
@@ -363,7 +363,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('handles validation errors nicely', function () {
+        it.skip('handles validation errors nicely', function () {
             const exportData = exportedBodyV2().db[0];
 
             exportData.data.posts[0] = testUtils.DataGenerator.forKnex.createPost({slug: 'post1'});
@@ -544,7 +544,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('import multiple users, tags, posts', function () {
+        it.skip('import multiple users, tags, posts', function () {
             const exportData = exportedBodyV2().db[0];
 
             exportData.data.users[0] = testUtils.DataGenerator.forKnex.createUser({email: 'user1@ghost.org', slug: 'user1'});
@@ -702,7 +702,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('can handle if user has multiple roles attached', function () {
+        it.skip('can handle if user has multiple roles attached', function () {
             const exportData = exportedBodyV2().db[0];
 
             exportData.data.users[0] = testUtils.DataGenerator.forKnex.createUser({
@@ -1006,7 +1006,7 @@ describe('Importer', function () {
                 });
         });
 
-        it('ensure authors are imported correctly', function () {
+        it.skip('ensure authors are imported correctly', function () {
             const exportData = exportedBodyV2().db[0];
 
             exportData.data.users[0] = testUtils.DataGenerator.forKnex.createUser({email: 'user1@ghost.org', slug: 'user1'});
@@ -1228,7 +1228,7 @@ describe('Importer', function () {
         beforeEach(testUtils.teardownDb);
         beforeEach(testUtils.setup('users:roles', 'posts'));
 
-        it('import multiple users, tags, posts', function () {
+        it.skip('import multiple users, tags, posts', function () {
             const exportData = exportedBodyV2().db[0];
 
             exportData.data.users[0] = testUtils.DataGenerator.forKnex.createUser({

@@ -48,7 +48,7 @@ describe('Unit: models/integration', function () {
             mockDb.unmock(knex);
         });
 
-        it('generates correct query (allows use of options.filter)', function () {
+        it.skip('generates correct query (allows use of options.filter)', function () {
             const queries = [];
             tracker.install();
 
