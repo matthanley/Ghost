@@ -1062,7 +1062,7 @@ Post = ghostBookshelf.Model.extend({
         let options = this.filterOptions(unfilteredOptions, 'edit', {extraAllowedProperties: ['id']});
 
         const editPost = () => {
-            options.forUpdate = true;
+            // options.forUpdate = true;
 
             return ghostBookshelf.Model.edit.call(this, data, options)
                 .then((post) => {
