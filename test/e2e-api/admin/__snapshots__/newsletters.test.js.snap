@@ -541,6 +541,35 @@ Object {
 }
 `;
 
+exports[`Newsletters API Can verify restricted property updates 1: [body] 1`] = `
+Object {
+  "newsletters": Array [
+    Object {
+      "body_font_category": "sans_serif",
+      "description": null,
+      "footer_content": null,
+      "header_image": null,
+      "id": StringMatching /\\[a-f0-9\\]\\{24\\}/,
+      "name": "Updated newsletter name",
+      "sender_email": "verify@example.com",
+      "sender_name": null,
+      "sender_reply_to": "newsletter",
+      "show_badge": true,
+      "show_feature_image": true,
+      "show_header_icon": true,
+      "show_header_title": true,
+      "slug": "default-newsletter",
+      "sort_order": 0,
+      "status": "active",
+      "subscribe_on_signup": true,
+      "title_alignment": "center",
+      "title_font_category": "sans_serif",
+      "visibility": "members",
+    },
+  ],
+}
+`;
+
 exports[`Newsletters API Cannot add newsletter with same name 1: [body] 1`] = `
 Object {
   "newsletters": Array [
