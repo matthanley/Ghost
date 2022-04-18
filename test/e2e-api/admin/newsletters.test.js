@@ -182,7 +182,7 @@ describe('Newsletters API', function () {
         });
     });
 
-    it('Can verify restricted property updates', async function () {
+    it('Can verify property updates', async function () {
         const cheerio = require('cheerio');
 
         const res = await agent.get('newsletters?limit=1')
@@ -203,6 +203,7 @@ describe('Newsletters API', function () {
         const $mailHtml = cheerio.load(mailHtml);
 
         const verifyUrl = new URL($mailHtml('[data-test-verify-link]').attr('href'));
+        // convert Admin URL hash to native URL for easier token param extraction
         const token = (new URL(verifyUrl.hash.replace('#', ''), 'http://example.com')).searchParams.get('verifyEmail');
 
         await agent.put(`newsletters/verifications`)
