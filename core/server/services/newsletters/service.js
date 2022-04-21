@@ -2,7 +2,7 @@ const _ = require('lodash');
 const MagicLink = require('@tryghost/magic-link');
 const logging = require('@tryghost/logging');
 const verifyEmailTemplate = require('./emails/verify-email');
-const { knex } = require('../../data/db');
+const {knex} = require('../../data/db');
 const ObjectID = require('bson-objectid');
 const debug = require('@tryghost/debug')('services:newsletters');
 
@@ -106,7 +106,7 @@ class NewslettersService {
             const memberIds = await knex('members_newsletters')
                 .join('newsletters', 'members_newsletters.newsletter_id', '=', 'newsletters.id')
                 .where('newsletters.status', 'active')
-                .distinct('member_id as id') // test: member has multiple subscriptions, only gets added once
+                .distinct('member_id as id')
                 .transacting(options.transacting);
 
             if (memberIds.length) {
