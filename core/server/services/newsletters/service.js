@@ -2,6 +2,9 @@ const _ = require('lodash');
 const MagicLink = require('@tryghost/magic-link');
 const logging = require('@tryghost/logging');
 const verifyEmailTemplate = require('./emails/verify-email');
+const { knex } = require('../../data/db');
+const ObjectID = require('bson-objectid');
+const debug = require('@tryghost/debug')('services:newsletters');
 
 const MAGIC_LINK_TOKEN_VALIDITY = 24 * 60 * 60 * 1000;
 
@@ -79,11 +82,51 @@ class NewslettersService {
     }
 
     async add(attrs, options) {
+        // create newsletter and assign members in the same transaction
+        if (!options.transacting) {
+            return this.NewsletterModel.transaction((transacting) => {
+                options.transacting = transacting;
+                return this.add(attrs, options);
+            });
+        }
+
         // remove any email properties that are not allowed to be set without verification
         const {cleanedAttrs, emailsToVerify} = await this.prepAttrsForEmailVerification(attrs);
 
         // add the model now because we need the ID for sending verification emails
         const newsletter = await this.NewsletterModel.add(cleanedAttrs, options);
+
+        // subscribe existing members if opt_in_existing=true
+        if (options.opt_in_existing) {
+            debug(`Subscribing members to newsletter '${newsletter.get('name')}'`);
+
+            // subscribe members that have an existing subscription to an active newsletter
+            // refs https://ghost.slack.com/archives/C02G9E68C/p1650404678237709?thread_ts=1650277304.685079&cid=C02G9E68C
+            // we use raw queries instead of model relationships because model hydration is expensive
+            const memberIds = await knex('members_newsletters')
+                .join('newsletters', 'members_newsletters.newsletter_id', '=', 'newsletters.id')
+                .where('newsletters.status', 'active')
+                .distinct('member_id as id'); // test: member has multiple subscriptions, only gets added once
+
+            if (!memberIds.length) {
+                debug(`No members to subscribe - skipping`);
+                return;
+            }
+
+            debug(`Found ${memberIds.length} members to subscribe`);
+
+            let pivotRows = [];
+            for (const memberId of memberIds) {
+                pivotRows.push({
+                    id: ObjectID().toHexString(),
+                    member_id: memberId.id,
+                    newsletter_id: newsletter.id
+                });
+            }
+
+            await knex.batchInsert('members_newsletters', pivotRows)
+                .transacting(options.transacting);
+        }
 
         // send any verification emails and respond with the appropriate meta added
         return this.respondWithEmailVerification(newsletter, emailsToVerify);

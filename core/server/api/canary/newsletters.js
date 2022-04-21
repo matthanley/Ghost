@@ -19,6 +19,9 @@ module.exports = {
     },
 
     add: {
+        options: [
+            'opt_in_existing'
+        ],
         statusCode: 201,
         permissions: true,
         async query(frame) {
