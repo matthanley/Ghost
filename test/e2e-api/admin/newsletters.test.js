@@ -60,6 +60,44 @@ describe('Newsletters API', function () {
             });
     });
 
+    it('Can add a newsletter - and subscribe existing members', async function () {
+        const newsletter = {
+            name: 'My test newsletter with existing members subscribed',
+            sender_name: 'Test',
+            sender_email: null,
+            sender_reply_to: 'newsletter',
+            status: 'active',
+            subscribe_on_signup: true,
+            title_font_category: 'serif',
+            body_font_category: 'serif',
+            show_header_icon: true,
+            show_header_title: true,
+            show_badge: true,
+            sort_order: 0
+        };
+
+        const {body} = await agent
+            .post(`newsletters/?opt_in_existing=true`)
+            .body({newsletters: [newsletter]})
+            .expectStatus(201)
+            .matchBodySnapshot({
+                newsletters: new Array(1).fill(newsletterSnapshot)
+            })
+            .matchHeaderSnapshot({
+                etag: anyEtag,
+                location: anyString
+            });
+
+        await agent.get(`newsletters/${body.newsletters[0].id}/?include=count.members`)
+            .expectStatus(200)
+            .matchBodySnapshot({
+                newsletters: new Array(1).fill(newsletterSnapshot)
+            })
+            .matchHeaderSnapshot({
+                etag: anyEtag
+            });
+    });
+
     it('Can browse newsletters', async function () {
         await agent.get('newsletters/')
             .expectStatus(200)
