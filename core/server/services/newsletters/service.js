@@ -106,26 +106,24 @@ class NewslettersService {
             const memberIds = await knex('members_newsletters')
                 .join('newsletters', 'members_newsletters.newsletter_id', '=', 'newsletters.id')
                 .where('newsletters.status', 'active')
-                .distinct('member_id as id'); // test: member has multiple subscriptions, only gets added once
-
-            if (!memberIds.length) {
-                debug(`No members to subscribe - skipping`);
-                return;
-            }
-
-            debug(`Found ${memberIds.length} members to subscribe`);
-
-            let pivotRows = [];
-            for (const memberId of memberIds) {
-                pivotRows.push({
-                    id: ObjectID().toHexString(),
-                    member_id: memberId.id,
-                    newsletter_id: newsletter.id
-                });
-            }
-
-            await knex.batchInsert('members_newsletters', pivotRows)
+                .distinct('member_id as id') // test: member has multiple subscriptions, only gets added once
                 .transacting(options.transacting);
+
+            if (memberIds.length) {
+                debug(`Found ${memberIds.length} members to subscribe`);
+
+                let pivotRows = [];
+                for (const memberId of memberIds) {
+                    pivotRows.push({
+                        id: ObjectID().toHexString(),
+                        member_id: memberId.id,
+                        newsletter_id: newsletter.id
+                    });
+                }
+
+                await knex.batchInsert('members_newsletters', pivotRows)
+                    .transacting(options.transacting);
+            }
         }
 
         // send any verification emails and respond with the appropriate meta added
