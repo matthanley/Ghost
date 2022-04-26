@@ -80,6 +80,16 @@ const Newsletter = ghostBookshelf.Model.extend({
         };
     },
 
+    getDefaultNewsletter: function getDefaultNewsletter(unfilteredOptions = {}) {
+        const query = this.findPage({limit: 1});
+
+        if (unfilteredOptions.transacting) {
+            query.transacting(unfilteredOptions.transacting);
+        }
+
+        return query;
+    },
+
     getNextAvailableSortOrder: async function getNextAvailableSortOrder(unfilteredOptions = {}) {
         const options = {};
         if (unfilteredOptions.transacting) {
