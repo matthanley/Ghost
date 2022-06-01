@@ -55,6 +55,7 @@
     "cli": "^1.17.0"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.1.0",
     "@sentry/node": "6.19.7",
     "@tryghost/adapter-manager": "0.2.32",
     "@tryghost/admin-api-schema": "4.0.0",

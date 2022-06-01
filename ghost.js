@@ -16,6 +16,7 @@ const command = require('./core/cli/command');
 
 // Switch between boot modes
 switch (mode) {
+case 'data':
 case 'repl':
 case 'timetravel':
     command.run(mode);
