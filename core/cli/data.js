@@ -22,6 +22,16 @@ module.exports = class Data extends Command {
             .del();
     }
 
+    async cleanUnusedTags() {
+        await knex('tags')
+            .whereNotIn(
+                'id',
+                knex('posts_tags')
+                    .select('tag_id')
+            )
+            .del();
+    }
+
     async mapReplyTo() {
         const replyToEmails = await knex('emails')
             .distinct()
@@ -109,6 +119,7 @@ module.exports = class Data extends Command {
         // await this.mapEmails();
         // await this.updateMembers();
         // await this.mapReplyTo();
+        await this.cleanUnusedTags();
 
         knex.destroy();
         this.info('done.');
