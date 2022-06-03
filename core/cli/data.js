@@ -11,6 +11,17 @@ const emailFields = {
 };
 
 module.exports = class Data extends Command {
+    async cleanOfferRedemptions() {
+        // delete orphaned redemptions
+        await knex('offer_redemptions')
+            .whereNotIn(
+                'subscription_id',
+                knex('members_stripe_customers_subscriptions')
+                    .select('id')
+            )
+            .del();
+    }
+
     async mapEmails() {
         this.info('updating emails');
         const emailMap = new Map();
@@ -74,8 +85,9 @@ module.exports = class Data extends Command {
     }
 
     async handle(argv = {}) {
+        // await this.cleanOfferRedemptions();
         // await this.mapEmails();
-        await this.updateMembers();
+        // await this.updateMembers();
 
         knex.destroy();
         this.info('done.');
