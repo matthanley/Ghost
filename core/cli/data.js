@@ -22,6 +22,26 @@ module.exports = class Data extends Command {
             .del();
     }
 
+    async mapReplyTo() {
+        const replyToEmails = await knex('emails')
+            .distinct()
+            .pluck('reply_to');
+        this.debug(replyToEmails);
+
+        const emailMap = new Map();
+        replyToEmails.forEach((item) => {
+            emailMap.set(item, `test+${faker.word.adjective()}@ghost.org`);
+        });
+        this.debug(emailMap);
+
+        for (const email of emailMap.keys()) {
+            this.info(`mapping ${email} -> ${emailMap.get(email)}`);
+            await knex('emails')
+                .where('reply_to', email)
+                .update('reply_to', emailMap.get(email));
+        }
+    }
+
     async mapEmails() {
         this.info('updating emails');
         const emailMap = new Map();
@@ -88,6 +108,7 @@ module.exports = class Data extends Command {
         // await this.cleanOfferRedemptions();
         // await this.mapEmails();
         // await this.updateMembers();
+        // await this.mapReplyTo();
 
         knex.destroy();
         this.info('done.');
