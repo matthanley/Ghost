@@ -115,6 +115,7 @@ module.exports = class Data extends Command {
                 }),
                 note: m.note ? faker.lorem.paragraph() : null
             };
+            progressBar.update({status: member.name});
             await knex('members')
                 .update(member)
                 .where({id: m.id});
@@ -125,9 +126,9 @@ module.exports = class Data extends Command {
     }
 
     async handle(argv = {}) {
+        await this.mapEmails();
+        await this.updateMembers();
         // await this.cleanOfferRedemptions();
-        // await this.mapEmails();
-        // await this.updateMembers();
         // await this.mapReplyTo();
         // await this.cleanUnusedTags();
         // await this.cleanUnusedLabels();
